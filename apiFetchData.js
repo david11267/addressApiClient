@@ -84,7 +84,7 @@ function createListing() {
   target.innerHTML = "";
 
   const form = document.createElement("form");
-  form.method = "DELETE";
+  form.method = "POST";
   form.action = form.innerHTML = `
              <label for="country">country</label>
             <input type="text" name="country" />
@@ -106,7 +106,7 @@ function createListing() {
   form.addEventListener("submit", (event) => {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
-    fetch("http://localhost:8080/addresses/delete", {
+    fetch("http://localhost:8080/addresses", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -198,30 +198,22 @@ function deleteListing() {
     description: activeAddress.description,
   };
 
-  form.addEventListener("submit", (event) => {
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-    data.id = activeAddress.id;
-
-    fetch("http://localhost:8080/addresses", {
-      method: "DELETE",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
+  fetch("http://localhost:8080/addresses", {
+    method: "DELETE",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        target.innerHTML = "<p>Address deleted successfully!</p>";
+      } else {
+        target.innerHTML = "<p>Failed to delete address.</p>";
+      }
     })
-      .then((res) => {
-        if (res.ok) {
-          target.innerHTML = "<p>Address deleted successfully!</p>";
-        } else {
-          target.innerHTML = "<p>Failed to delete address.</p>";
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        target.innerHTML = "<p>An error occurred.</p>";
-      });
-  });
-
-  target.appendChild(form);
+    .catch((error) => {
+      console.error("Error:", error);
+      target.innerHTML = "<p>An error occurred.</p>";
+    });
 }
