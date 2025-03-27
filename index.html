@@ -4,17 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="apiFetchData.js"></script>
     <link rel="stylesheet" href="global.css" />
   </head>
   <body>
     <main>
-      <div class="rightContent">
-        <div id="focus" class="contentFocus container">Focus</div>
+      <div id="focusContainer">
+        <div id="cruds" class="cruds"></div>
+        <div id="focus" class="contentFocus container"></div>
       </div>
-      <div  class="leftList container" id="contentList">
-        this is where data should load
-      </div>
+      <div class="contentList container" id="contentList">no data loaded</div>
     </main>
   </body>
+  <script src="apiFetchData.js"></script>
 </html>
