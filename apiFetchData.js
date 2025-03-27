@@ -1,7 +1,12 @@
-let data = fetch("http://localhost:8080/addresses")
-  .then((res) => res.json())
-  .then((data) => populateWithDivs(data))
-  .catch((err) => console.error("Error fetching addresses:", err));
+function loadAddresses() {
+  let data = fetch("http://localhost:8080/addresses")
+    .then((res) => res.json())
+    .then((data) => populateWithDivs(data))
+    .catch((err) => console.error("Error fetching addresses:", err));
+  return data;
+}
+
+data = loadAddresses();
 
 let activeAddress;
 renderButtons();
@@ -123,7 +128,8 @@ function createListing() {
       .catch((error) => {
         console.error("Error:", error);
         target.innerHTML = "<p>An error occurred.</p>";
-      });
+      })
+      .then((res) => location.reload());
   });
 
   target.appendChild(form);
@@ -176,7 +182,8 @@ function editListing() {
       .catch((error) => {
         console.error("Error:", error);
         target.innerHTML = "<p>An error occurred.</p>";
-      });
+      })
+      .then((res) => location.reload());
   });
 
   target.appendChild(form);
@@ -215,5 +222,6 @@ function deleteListing() {
     .catch((error) => {
       console.error("Error:", error);
       target.innerHTML = "<p>An error occurred.</p>";
-    });
+    })
+    .then((res) => location.reload());
 }
